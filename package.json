@@ -1,0 +1,31 @@
+{
+  "name": "tracker-web",
+  "version": "1.0.0",
+  "description": "A finance tracker for me and my girlfriend",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/joehop67/tracker-web.git"
+  },
+  "keywords": [
+    "tracker",
+    "finance",
+    "fun",
+    "games",
+    "profit"
+  ],
+  "author": "Joesph Hopkins",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joehop67/tracker-web/issues"
+  },
+  "homepage": "https://github.com/joehop67/tracker-web#readme",
+  "dependencies": {
+    "next": "^6.1.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  }
+}
