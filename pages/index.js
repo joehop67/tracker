@@ -1,5 +1,7 @@
 import React from 'react'
-import { Jumbotron, Navbar, NavbarBrand, NavItem, NavLink, Nav, Button} from 'reactstrap'
+import { Jumbotron, Button, Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reactstrap'
+import Navbar from '../components/navbar'
+import Footer from '../components/footer'
 
 export default class Homepage extends React.Component {
   render() {
@@ -9,15 +11,6 @@ export default class Homepage extends React.Component {
           .home {
             background: #e7dfdd;
             height: 100%;
-          }
-          :global(nav.navbar) {
-            flex-direction: row;
-          }
-          :global(ul.navbar-nav) {
-            flex-direction: row;
-          }
-          :global(li.nav-item) {
-            margin-left: 2rem;
           }
           .welcome {
             width: 100%;
@@ -36,15 +29,13 @@ export default class Homepage extends React.Component {
           :global(.btn-container button) {
             margin-right: 2rem;
           }
+          .section-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
         `}</style>
-        <Navbar color="faded" light>
-          <NavbarBrand href="/" className="mr-auto">Tracker</NavbarBrand>
-            <Nav className='ml-auto' navbar>
-              <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">Login</NavLink>
-              </NavItem>
-            </Nav>
-        </Navbar>
+        <Navbar />
         <div className='welcome'>
           <div className='centered'>
             <Jumbotron>
@@ -58,7 +49,14 @@ export default class Homepage extends React.Component {
             </Jumbotron>
           </div>
         </div>
-        <BottomMatter />
+        <div className='bottom-matter'>
+          <BottomMatter />
+        </div>
+        <hr />
+        <div className='section-card'>
+          <Section />
+        </div>
+        <Footer />
       </div>
     )
   }
@@ -109,6 +107,28 @@ function BottomMatter (props) {
           whatnot, then please do use this app! And give me feedback while you're at it!
         </div>
       </div>
+    </div>
+  )
+}
+
+function Section (props) {
+  return (
+    <div className='section'>
+      <style jsx>{`
+        .section {
+          width: 318px;
+          margin: 2rem;
+        }  
+      `}</style>
+      <Card>
+        <CardImg top width="100%" src="/static/planning.png" alt="Card image cap" />
+        <CardBody>
+          <CardTitle>Plan Smart</CardTitle>
+          <CardSubtitle>Mind your budget</CardSubtitle>
+          <CardText>This tool makes it easier to manage your finances and map your expenses with your budget</CardText>
+          <Button>Try it now</Button>
+        </CardBody>
+      </Card>
     </div>
   )
 }
