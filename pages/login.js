@@ -8,7 +8,7 @@ export default class LoginPage extends React.Component {
   loginForm = (target) => {
     const data = new FormData(target)
     axios.post('http://localhost:4000/auth/login', data).then(res => {
-      console.log(res)
+      document.cookie = `token=${res.data};path=/;`
     })
   }
 

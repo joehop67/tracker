@@ -2,8 +2,19 @@ import React from 'react'
 import { Jumbotron, Button, Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reactstrap'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
+import jwt from 'jwt-decode'
 
 export default class Homepage extends React.Component {
+  constructor (props) {
+    super(props)
+  }
+
+  static async getInitialProps ({req, res}) {
+    const token = req.headers.cookie.split('token=')[1]
+    const user = {user: jwt(token)}
+    return user
+  }
+
   render() {
     return (
       <div className='home'>
