@@ -1,14 +1,26 @@
+// Dependencies
 import React from 'react'
 import {Button} from 'reactstrap'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
 import axios from 'axios'
 
+/**
+ * Login Page Component
+ */
 export default class LoginPage extends React.Component {
+  /**
+   * Login form - Logs user in
+   * TODO: Error Handling
+   * 
+   * @param {Object} target
+   * @api private
+   */
   loginForm = (target) => {
     const data = new FormData(target)
     axios.post('http://localhost:4000/auth/login', data).then(res => {
       document.cookie = `token=${res.data};path=/;`
+      document.location = '/'
     })
   }
 

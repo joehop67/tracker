@@ -1,18 +1,31 @@
+// Dependencies
 import React from 'react'
 import { Jumbotron, Button, Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reactstrap'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
 import jwt from 'jwt-decode'
 
+/**
+ * Homepage Component
+ */
+
 export default class Homepage extends React.Component {
   constructor (props) {
     super(props)
   }
 
+  /**
+   * Check User token to see if user is logged in
+   * 
+   * @api private
+   */
   static async getInitialProps ({req, res}) {
     const token = req.headers.cookie.split('token=')[1]
-    const user = {user: jwt(token)}
-    return user
+    if (token) {
+      const user = {user: jwt(token)}
+      return user
+    }
+    return {}
   }
 
   render() {
@@ -46,7 +59,7 @@ export default class Homepage extends React.Component {
             justify-content: center;
           }
         `}</style>
-        <Navbar />
+        <Navbar user={!!this.props.user}/>
         <div className='welcome'>
           <div className='centered'>
             <Jumbotron>

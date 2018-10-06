@@ -14,13 +14,29 @@ export default (props) => {
         :global(li.nav-item) {
           margin-left: 2rem;
         }
+        .nav {
+          display: flex;
+          flex-direction: row;
+        }
       `}</style>
       <Navbar color="faded" light>
           <NavbarBrand href="/" className="mr-auto">Tracker</NavbarBrand>
             <Nav className='ml-auto' navbar>
-              <NavItem>
-                <NavLink href='/login'>Login</NavLink>
-              </NavItem>
+              {props.user
+              ? <NavItem>
+                  <NavLink onClick={() => {
+                    document.cookie = 'token=;expires=0;'
+                    document.location = '/'
+                  }}>Logout</NavLink>
+                </NavItem>
+              : <span className='nav'>
+                  <NavItem>
+                    <NavLink href='/register'>Sign Up</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink href='/login'>Login</NavLink>
+                  </NavItem>
+                </span>}
             </Nav>
       </Navbar>
     </header>
