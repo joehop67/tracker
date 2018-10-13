@@ -59,7 +59,7 @@ export default class Homepage extends React.Component {
             justify-content: center;
           }
         `}</style>
-        <Navbar user={!!this.props.user}/>
+        <Navbar user={this.props.user}/>
         <div className='welcome'>
           <div className='centered'>
             <Jumbotron>
@@ -67,8 +67,7 @@ export default class Homepage extends React.Component {
               <hr className='my-2' />
               <p className='lead'>A tool that will hopefully be useful to at least myself</p>
               <div className='btn-container'>
-                <Button>Try It Now</Button>
-                <Button>See a demo</Button>
+                <Button href='/register'>Try It Now</Button>
               </div>
             </Jumbotron>
           </div>
@@ -150,7 +149,7 @@ function Section (props) {
           <CardTitle>Plan Smart</CardTitle>
           <CardSubtitle>Mind your budget</CardSubtitle>
           <CardText>This tool makes it easier to manage your finances and map your expenses with your budget</CardText>
-          <Button>Try it now</Button>
+          <Button href='/register'>Try It Now</Button>
         </CardBody>
       </Card>
     </div>

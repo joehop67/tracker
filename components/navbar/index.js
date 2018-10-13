@@ -1,5 +1,13 @@
 import React from 'react'
-import {Navbar, NavbarBrand, NavItem, NavLink, Nav} from 'reactstrap'
+import {Navbar,
+  NavbarBrand,
+  NavItem,
+  NavLink,
+  Nav,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+DropdownItem} from 'reactstrap'
 
 export default (props) => {
   return (
@@ -23,12 +31,38 @@ export default (props) => {
           <NavbarBrand href="/" className="mr-auto">Tracker</NavbarBrand>
             <Nav className='ml-auto' navbar>
               {props.user
-              ? <NavItem>
-                  <NavLink onClick={() => {
-                    document.cookie = 'token=;expires=0;'
-                    document.location = '/'
-                  }}>Logout</NavLink>
-                </NavItem>
+              ? <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret>
+                    {props.user.current_user}
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem>
+                      Profile
+                    </DropdownItem>
+                    <DropdownItem>
+                      Budget
+                    </DropdownItem>
+                    <DropdownItem>
+                      Expenses
+                    </DropdownItem>
+                    <DropdownItem>
+                      Groups
+                    </DropdownItem>
+                    <DropdownItem>
+                      Requests
+                    </DropdownItem>
+                    <DropdownItem>
+                      Partner
+                    </DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem onClick={() => {
+                      document.cookie = 'token=;expires=0;path=/;'
+                      document.location = '/'
+                    }}>
+                      Logout
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               : <span className='nav'>
                   <NavItem>
                     <NavLink href='/register'>Sign Up</NavLink>
