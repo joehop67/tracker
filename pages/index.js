@@ -20,12 +20,16 @@ export default class Homepage extends React.Component {
    * @api private
    */
   static async getInitialProps ({req, res}) {
-    const token = req.headers.cookie.split('token=')[1]
-    if (token) {
-      const user = {user: jwt(token)}
-      return user
+    if (req.headers.cookie) {
+      const token = req.headers.cookie.split('token=')[1]
+      if (token) {
+        const user = {user: jwt(token)}
+        return user
+      }
+      return {}
+    } else {
+      return {}
     }
-    return {}
   }
 
   render() {

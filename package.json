@@ -28,10 +28,12 @@
   "homepage": "https://github.com/joehop67/tracker-web#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "dotenv": "^6.1.0",
     "jwt-decode": "^2.2.0",
     "next": "^6.1.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-states-machine": "^1.2.0",
     "reactstrap": "^6.4.0"
   },
   "devDependencies": {}

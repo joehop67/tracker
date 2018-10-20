@@ -4,6 +4,7 @@ import {Button} from 'reactstrap'
 import Navbar from '../components/navbar'
 import Footer from '../components/footer'
 import axios from 'axios'
+import fetch from '../util/fetch'
 
 /**
  * Login Page Component
@@ -18,10 +19,14 @@ export default class LoginPage extends React.Component {
    */
   loginForm = (target) => {
     const data = new FormData(target)
-    axios.post('http://localhost:4000/auth/login', data).then(res => {
+    fetch.post('/auth/login', data).then(res => {
       document.cookie = `token=${res.data};path=/;`
-      document.location = '/'
+      document.location = '/profile/user'
     })
+    // axios.post('http://localhost:4000/auth/login', data).then(res => {
+    //   document.cookie = `token=${res.data};path=/;`
+    //   document.location = '/profile/user'
+    // })
   }
 
   render () {

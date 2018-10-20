@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Button } from 'reactstrap'
 import NavBar from '../components/navbar'
 import Footer from '../components/footer'
+import machine from 'react-states-machine'
 
 export default class RegisterPage extends React.Component {
   constructor (props) {
@@ -10,10 +11,23 @@ export default class RegisterPage extends React.Component {
 
     this.state = {
       password: '',
-      conf: false
+      conf: false,
+      salary: ''
     }
   }
   
+  multiStep = (data) => {
+    axios.post('http://localhost:4000/auth/register', data).then(res => {
+        if (res.data.error) {
+          console.log('error')
+        } else {
+          const token = res.data
+          document.cookie = `token=${token};path=/;`
+          document.location = '/profile/user'
+        }
+      })
+  }
+
   registration = (target) => {
     if (this.state.conf) {
       const data = new FormData(target)
@@ -23,7 +37,7 @@ export default class RegisterPage extends React.Component {
         } else {
           const token = res.data
           document.cookie = `token=${token};path=/;`
-          document.location = '/'
+          document.location = '/profile/user'
         }
       })
     }
@@ -84,11 +98,13 @@ export default class RegisterPage extends React.Component {
           <div className='login'>
             <div className='form'>
               <h3>Sign up</h3>
-              <form onSubmit={(e) => {
+              {/* <form onSubmit={(e) => {
                 e.preventDefault()
                 this.registration(e.target)
               }}>
+                <input name='name' type='text' placeholder='Full Name' required />
                 <input name='email' type='text' placeholder='Email' required />
+                <input name='salary' type='number' placeholder='Salary' required />
                 <input name='password' type='password' placeholder='Password' onChange={(e) => {
                   if (e.target.value.length > 8) {
                     this.setState({password: e.target.value})
@@ -102,7 +118,8 @@ export default class RegisterPage extends React.Component {
                   }
                 }} required />
                 <Button type='submit'>Login</Button>
-              </form>
+              </form> */}
+              <SignForm onDone={data => this.multiStep(data)} />
             </div>
           </div>
         </div>
@@ -112,4 +129,67 @@ export default class RegisterPage extends React.Component {
       </div>
     )
   }
+}
+
+function SignForm (props) {
+  const {onDone} = props
+  return (
+    <div>
+      <style jsx>{`
+        form {
+          display: flex;
+          flex-direction: column;
+        }
+        form > input {
+          margin-bottom: 1rem;
+          border-radius: .25rem;
+          height: 2rem;
+          border: 0;
+        }
+      `}</style>
+      {machine({
+        'email': [
+          props => {
+            return (
+              <form onSubmit={(e) => {
+                e.preventDefault()
+                props.transition('check', e.target)
+              }}>
+                <h5>Please enter your desired email and password</h5>
+                <input name='email' type='email' placeholder='Email' required />
+                <input name='password' type='password' placeholder='password' required />
+                <Button>Submit</Button>
+              </form>
+            )
+          }, {
+            'check': [
+              (prev, target) => {
+                const email = target.email.value
+                const data = new FormData(target)
+                return {data: data, email: email}
+              }, 'name'
+            ]
+          }
+        ],
+        'name': [
+          props => {
+            return (
+              <form onSubmit={(e) => {
+                e.preventDefault()
+                const {data} = props
+                data.set('name', e.target.name.value)
+                data.set('salary', e.target.salary.value)
+                onDone(data)
+              }}>
+                <h5>{props.email} just needs a name and a salary to finish up</h5>
+                <input type='text' name='name' placeholder='Name' required />
+                <input type='number' name='salary' placeholder='1234' required />
+                <button>Submit</button>
+              </form>
+            )
+          }
+        ]
+      }, props)}
+    </div>
+  )
 }
