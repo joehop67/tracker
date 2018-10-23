@@ -16,6 +16,9 @@ export default (props) => {
         :global(nav.navbar) {
           flex-direction: row;
         }
+        :global(.dropdown-menu) {
+          z-index: 9999;
+        }
         :global(ul.navbar-nav) {
           flex-direction: row;
         }
@@ -37,7 +40,7 @@ export default (props) => {
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
-                      Profile
+                      <a href='/profile/user'>Profile</a>
                     </DropdownItem>
                     <DropdownItem>
                       Budget
