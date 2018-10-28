@@ -63,7 +63,11 @@ export default class UserProfile extends React.Component {
               <UserCard data={data} />
             </div>
             <div className='budget col-md-8'>
-              <BudgetCard budget={data.user.currentBudget} token={this.props.token} />
+              {data.user.currentBudget
+                ? <BudgetCard budget={data.user.currentBudget} token={this.props.token} />
+                : (id === this.props.user.id)
+                  ? <a href='/budgets/create'>No Budget! Create a new one here!</a>
+                  : 'This user has no budget yet!'}
             </div>
           </div>
           <div className='footer'>
@@ -113,7 +117,7 @@ function BudgetCard (props) {
                 <span className='desired'>${data.savings}</span>
               </div>
               <div className='saved-bar'>
-                <Progress value={25} className='bg-bar' />
+                <Progress value={progress} className='bg-bar' />
               </div>
             </div>
           </Jumbotron>
