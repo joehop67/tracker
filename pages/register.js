@@ -16,6 +16,13 @@ export default class RegisterPage extends React.Component {
     }
   }
   
+  /**
+   * Register User
+   * 
+   * @param {FormData} data
+   * @api private
+   */
+
   multiStep = (data) => {
     axios.post('http://localhost:4000/auth/register', data).then(res => {
         if (res.data.error) {
@@ -26,21 +33,6 @@ export default class RegisterPage extends React.Component {
           document.location = '/profile/user'
         }
       })
-  }
-
-  registration = (target) => {
-    if (this.state.conf) {
-      const data = new FormData(target)
-      axios.post('http://localhost:4000/auth/register', data).then(res => {
-        if (res.data.error) {
-          console.log('error')
-        } else {
-          const token = res.data
-          document.cookie = `token=${token};path=/;`
-          document.location = '/profile/user'
-        }
-      })
-    }
   }
 
   render () {
@@ -98,27 +90,6 @@ export default class RegisterPage extends React.Component {
           <div className='login'>
             <div className='form'>
               <h3>Sign up</h3>
-              {/* <form onSubmit={(e) => {
-                e.preventDefault()
-                this.registration(e.target)
-              }}>
-                <input name='name' type='text' placeholder='Full Name' required />
-                <input name='email' type='text' placeholder='Email' required />
-                <input name='salary' type='number' placeholder='Salary' required />
-                <input name='password' type='password' placeholder='Password' onChange={(e) => {
-                  if (e.target.value.length > 8) {
-                    this.setState({password: e.target.value})
-                  }
-                }} required />
-                <input type='password' className={this.state.conf && 'match'} placeholder='Confirm Password' onChange={(e) => {
-                  if (e.target.value === this.state.password) {
-                    this.setState({conf: true})
-                  } else {
-                    this.setState({conf: false})
-                  }
-                }} required />
-                <Button type='submit'>Login</Button>
-              </form> */}
               <SignForm onDone={data => this.multiStep(data)} />
             </div>
           </div>
@@ -130,6 +101,18 @@ export default class RegisterPage extends React.Component {
     )
   }
 }
+
+/**
+ * User registration form
+ * 
+ * Users must enter their email, password, name, and salary
+ * in order to register
+ * 
+ * Props: -onDone: function, run when form is completed
+ * 
+ * @param {Object} props
+ * @api private
+ */
 
 function SignForm (props) {
   const {onDone} = props

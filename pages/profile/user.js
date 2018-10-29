@@ -1,3 +1,6 @@
+/**
+ * Dependencies
+ */
 import React from 'react'
 import {Card,
   CardImg,
@@ -12,6 +15,13 @@ import Footer from '../../components/footer'
 import jwt from 'jwt-decode'
 import async from '../../util/async'
 import fetch from '../../util/fetch'
+import BudgetCard from '../../components/cards/budgets'
+
+/**
+ * User profile page
+ * 
+ * @api public
+ */
 
 export default class UserProfile extends React.Component {
   constructor (props) {
@@ -81,56 +91,17 @@ export default class UserProfile extends React.Component {
 
 }
 
-function BudgetCard (props) {
-  return async(getBudget(props.budget, props.token), ({data}) => {
-    if (data) {
-      const progress = (data.saved / data.savings) * 100
-      return (
-        <div className='budget-card'>
-          <style jsx>{`
-            :global(.bg-bar) {
-              background: grey;
-            }
-            .amounts {
-              display: flex;
-              justify-content: space-between;
-            }
-            .current {
-              color: green;
-              font-size: 2rem;
-            }
-            .desired {
-              color: blue;
-              font-size: 2rem;
-            }
-            .percent {
-              color: grey;
-              font-size: 1.5rem;
-            }
-          `}</style>
-          <Jumbotron>
-            <h1>{data.name}</h1>
-            <div className='saving-progress'>
-              <div className='amounts'>
-                <span className='current'>${data.saved}</span>
-                <span className='percent'>{progress}%</span>
-                <span className='desired'>${data.savings}</span>
-              </div>
-              <div className='saved-bar'>
-                <Progress value={progress} className='bg-bar' />
-              </div>
-            </div>
-          </Jumbotron>
-        </div>
-      )
-    }
-    else return <h1>Loading</h1>
-  })
-}
-
-function getBudget (id, token) {
-  return fetch.get(`/plans/single/budgets/${id}`, token)
-}
+/**
+ * User info card
+ * 
+ * Displays various user info including name, email,
+ * salary, partner, etc.
+ * 
+ * Props: -data: Object, User/Partner data
+ * 
+ * @param {Object} props
+ * @api private
+ */
 
 function UserCard (props) {
   const {data} = props
@@ -159,6 +130,14 @@ function UserCard (props) {
     </div>
   )
 }
+
+/**
+ * Get user info
+ * 
+ * @param {String} id
+ * @param {String} token
+ * @api private
+ */
 
 function getUser (id, token) {
   return fetch.get(`/users/${id}`, token)

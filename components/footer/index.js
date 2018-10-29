@@ -1,4 +1,13 @@
+/**
+ * Dependencies
+ */
 import React from 'react'
+
+/**
+ * Footer component
+ * 
+ * @api public
+ */
 
 export default (props) => {
   return (

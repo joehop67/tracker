@@ -1,18 +1,22 @@
+/**
+ * Dependencies
+ */
 import React from 'react'
 import NavBar from '../../components/navbar'
 import Footer from '../../components/footer'
 import jwt from 'jwt-decode'
 import async from '../../util/async'
-import axios from 'axios'
 import fetch from '../../util/fetch'
+import BudgetCard from '../../components/cards/budgets'
+import {ListGroup, ListGroupItemHeading, ListGroupItemText, ListGroupItem, Progress} from 'reactstrap'
+
+/**
+ * List Users budgets page
+ */
 
 export default class BudgetList extends React.Component {
   constructor (props) {
     super(props)
-
-    this.state = {
-      budgets: []
-    }
   }
 
   static async getInitialProps ({req, res}) {
@@ -31,13 +35,6 @@ export default class BudgetList extends React.Component {
       return {}
     }
   }
-
-  // componentDidMount () {
-  //   fetch.get('/plans/single/budgets', this.props.token).then(res => {
-  //     console.log(res)
-  //     this.setState({budgets: res.data})
-  //   })
-  // }
 
   render () {
     return (
@@ -62,25 +59,68 @@ export default class BudgetList extends React.Component {
 
 }
 
+/**
+ * Display list of all users budgets
+ * 
+ * Props: -token: String, User Auth Token
+ * 
+ * @param {Object} props
+ * @api private
+ */
+
 function ListComp (props) {
   return async(getBudgets(props.token), ({data}) => {
-    if (data) return (
-      <div className='budget-list'>
-        <style jsx>{`
-          .current {
-            color: green;
-          }
-        `}</style>
-        <ul>
-          {data.map(budget => {
-            return <li className={budget.current && 'current'}>{budget.name}</li>
-          })}
-        </ul>
-      </div>
-    )
+    if (data) {
+      const current = []
+      data.map(budget => {
+        if (budget.current) current.push(budget)
+      })
+      return (
+        <div className='budget-list'>
+          <style jsx>{`
+            .budget-list {
+              margin-top: 2rem;
+            }
+            .current, .list {
+              margin: 0 2rem;
+            }
+          `}</style>
+          <div className='current'>
+            {current.map(current => {
+                return <BudgetCard token={props.token} budget={current._id} title />
+              })}
+          </div>
+          <div className='list'>
+            <h3>All Budgets</h3>
+            <hr />
+            <ListGroup>
+              {data.map(budget => {
+                const progress = (budget.saved / budget.savings) * 100
+                return (
+                  <>
+                    <ListGroupItemHeading>
+                      {budget.name}
+                    </ListGroupItemHeading>
+                    <Progress value={progress} className='bg-bar' />
+                    <ListGroupItemText>${budget.saved} saved of ${budget.savings}</ListGroupItemText>
+                  </>
+                )
+              })}
+            </ListGroup>
+          </div>
+        </div>
+      )
+    }
     else return <h1>Loading</h1>
   })
 }
+
+/**
+ * Get User's Budgets
+ * 
+ * @param {String} token
+ * @api private
+ */
 
 function getBudgets (token) {
   return fetch.get('/plans/single/budgets', token)

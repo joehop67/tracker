@@ -1,3 +1,6 @@
+/**
+ * Dependencies
+ */
 import React from 'react'
 import {Navbar,
   NavbarBrand,
@@ -8,6 +11,18 @@ import {Navbar,
   DropdownToggle,
   DropdownMenu,
 DropdownItem} from 'reactstrap'
+
+/**
+ * NavBar component
+ * 
+ * Displays dropdown menu in right corner if user is logged in
+ * if not, displays sign up and login links
+ * 
+ * Props: User: Object, user object for dropdown menu
+ * 
+ * @param {Object} props
+ * @api public
+ */
 
 export default (props) => {
   return (
@@ -43,7 +58,7 @@ export default (props) => {
                       <a href='/profile/user'>Profile</a>
                     </DropdownItem>
                     <DropdownItem>
-                      Budget
+                      <a href='/budgets'>Budgets</a>
                     </DropdownItem>
                     <DropdownItem>
                       Expenses

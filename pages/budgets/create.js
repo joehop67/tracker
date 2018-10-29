@@ -1,3 +1,6 @@
+/**
+ * Dependencies
+ */
 import React from 'react'
 import NavBar from '../../components/navbar'
 import Footer from '../../components/footer'
@@ -6,6 +9,12 @@ import fetch from '../../util/fetch'
 import machine from 'react-states-machine'
 import async from '../../util/async'
 import {Button} from 'reactstrap'
+
+/**
+ * Create Budget page
+ * 
+ * @api public
+ */
 
 export default class CreateBudget extends React.Component {
   constructor (props) {
@@ -28,6 +37,14 @@ export default class CreateBudget extends React.Component {
       return {}
     }
   }
+
+  /**
+   * Create Budget from form
+   * 
+   * @param {FormData} data
+   * @param {String} token
+   * @api private
+   */
 
   createBudget = (data, token) => {
     fetch.post('/plans/single/new/budget', data, token).then(res => {
@@ -83,6 +100,18 @@ export default class CreateBudget extends React.Component {
     )
   }
 }
+
+/**
+ * Budget Creation Form
+ * 
+ * Multistep form to create a budget
+ * 
+ * Props: -User: Object, User Object
+ *        -onDone: Function, Run onDone when user finishes form
+ * 
+ * @param {Object} attrs (props)
+ * @api private
+ */
 
 function CreateBudgetForm (attrs) {
   const {user, onDone} = attrs
@@ -171,6 +200,14 @@ function CreateBudgetForm (attrs) {
     else return <h1>Loading</h1>
   })
 }
+
+/**
+ * Get user info
+ * 
+ * @param {String} id - User ID
+ * @param {String} token
+ * @api private
+ */
 
 function getUserInfo (id, token) {
   return fetch.get('/users/' + id, token)
