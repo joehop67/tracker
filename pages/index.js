@@ -63,7 +63,7 @@ export default class Homepage extends React.Component {
             justify-content: center;
           }
         `}</style>
-        <Navbar user={this.props.user}/>
+        <Navbar user={this.props.user} token={this.props.token} />
         <div className='welcome'>
           <div className='centered'>
             <Jumbotron>

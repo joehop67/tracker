@@ -69,7 +69,7 @@ export default class UserList extends React.Component {
             width: 100%;
           }
         `}</style>
-        <Navbar user={this.props.user} />
+        <Navbar user={this.props.user} token={this.props.token} />
         <div className='search'>
           <div className='users-search'>
             <div className='forms'>

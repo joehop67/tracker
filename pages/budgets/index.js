@@ -46,7 +46,7 @@ export default class BudgetList extends React.Component {
           overflow: hidden;
         }
       `}</style>
-      <NavBar user={this.props.user} />
+      <NavBar user={this.props.user} token={this.props.token} />
       <div className='list'>
         <ListComp token={this.props.token} />
       </div>

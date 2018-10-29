@@ -8,14 +8,14 @@ import {Card,
   CardBody,
   CardTitle,
   CardSubtitle,
-  Jumbotron,
-Progress} from 'reactstrap'
+Button} from 'reactstrap'
 import NavBar from '../../components/navbar'
 import Footer from '../../components/footer'
 import jwt from 'jwt-decode'
 import async from '../../util/async'
 import fetch from '../../util/fetch'
 import BudgetCard from '../../components/cards/budgets'
+import UserCard from '../../components/cards/user'
 
 /**
  * User profile page
@@ -44,6 +44,23 @@ export default class UserProfile extends React.Component {
     }
   }
 
+  /**
+   * Send Partner Request
+   * 
+   * @param {String} email
+   * @param {String} token
+   * @api private
+   */
+
+  sendRequest = (email, token) => {
+    const data = new FormData()
+    data.append('partner', email)
+    return fetch.post('/users/partner/request', data, token).then(res => {
+      if (!res.error) document.location = '/profile/user'
+      else console.log(res)
+    })
+  }
+
   render () {
     const id = this.props.url.query.id || this.props.user.id
     return async(getUser(id, this.props.token), ({data}) => {
@@ -67,10 +84,10 @@ export default class UserProfile extends React.Component {
               background: #e7dfdd;
             }
           `}</style>
-          <NavBar user={this.props.user} />
+          <NavBar user={this.props.user} token={this.props.token} />
           <div className='row'>
             <div className='user-card col-md-4'>
-              <UserCard data={data} />
+              <UserCard data={data} current={(id === this.props.user.id) || (id === this.props.user.partner_id)} sendRequest={(email) => this.sendRequest(email, this.props.token)} />
             </div>
             <div className='budget col-md-8'>
               {data.user.currentBudget
@@ -89,46 +106,6 @@ export default class UserProfile extends React.Component {
     })
   }
 
-}
-
-/**
- * User info card
- * 
- * Displays various user info including name, email,
- * salary, partner, etc.
- * 
- * Props: -data: Object, User/Partner data
- * 
- * @param {Object} props
- * @api private
- */
-
-function UserCard (props) {
-  const {data} = props
-  return (
-    <div className='usercard'>
-      <style jsx>{`
-        ul {
-          list-style-type: none;
-          margin-top: .5rem;
-        }
-      `}</style>
-      <Card>
-        <CardImg top width='100%' src='/static/placeholder.jpg' alt='Profile Photo' />
-        <CardBody>
-          <CardTitle>{data.user.name || data.user.email}</CardTitle>
-          {data.user.name && <CardSubtitle>{data.user.email}</CardSubtitle>}
-          <CardText>
-            <ul>
-              <li><b>Salary:</b> ${data.user.salary}</li>
-              <li><b>Groups:</b> Placeholder</li>
-              {data.partner && <li><b>Partner: </b><a href={`/profile/user?id=${data.partner._id}`}>{data.partner.name}</a></li>}
-            </ul>
-          </CardText>
-        </CardBody>
-      </Card>
-    </div>
-  )
 }
 
 /**

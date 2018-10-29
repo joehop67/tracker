@@ -85,7 +85,7 @@ export default class CreateBudget extends React.Component {
             box-shadow: 16px 1px 27px -7px rgba(0,0,0,0.43);
           }
         `}</style>
-        <NavBar user={this.props.user} />
+        <NavBar user={this.props.user} token={this.props.token} />
         <div className='page'>
           <div className='form'>
             <CreateBudgetForm user={this.props.user} token={this.props.token} onDone={data => {
